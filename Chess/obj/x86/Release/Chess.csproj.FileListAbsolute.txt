@@ -1,0 +1,19 @@
+C:\Users\Sambhav\Desktop\Chess\Chess\bin\Release\Chess.exe
+C:\Users\Sambhav\Desktop\Chess\Chess\bin\Release\Chess.pdb
+C:\Users\Sambhav\Desktop\Chess\Chess\obj\x86\Release\Chess.Form1.resources
+C:\Users\Sambhav\Desktop\Chess\Chess\obj\x86\Release\Chess.Properties.Resources.resources
+C:\Users\Sambhav\Desktop\Chess\Chess\obj\x86\Release\Chess.csproj.GenerateResource.Cache
+C:\Users\Sambhav\Desktop\Chess\Chess\obj\x86\Release\Chess.exe
+C:\Users\Sambhav\Desktop\Chess\Chess\obj\x86\Release\Chess.pdb
+C:\Users\Sambhav\Desktop\Chess - Copy (3)\Chess\obj\x86\Release\Chess.exe
+C:\Users\Sambhav\Desktop\Chess - Copy (3)\Chess\obj\x86\Release\Chess.pdb
+C:\Users\Sambhav\Desktop\Chess - Copy (3)\Chess\bin\Release\Chess.exe
+C:\Users\Sambhav\Desktop\Chess - Copy (3)\Chess\bin\Release\Chess.pdb
+C:\Users\Sambhav\Desktop\Chess - Copy (3)\Chess\obj\x86\Release\Chess.Form1.resources
+C:\Users\Sambhav\Desktop\Chess - Copy (3)\Chess\obj\x86\Release\Chess.Properties.Resources.resources
+C:\Users\Sambhav\Desktop\Chess - Copy (3)\Chess\obj\x86\Release\Chess.csproj.GenerateResource.Cache
+C:\Users\Sambhav\Desktop\Chess - Copy (3)\Chess\bin\Release\Chess.exe.manifest
+C:\Users\Sambhav\Desktop\Chess - Copy (3)\Chess\bin\Release\Chess.application
+C:\Users\Sambhav\Desktop\Chess - Copy (3)\Chess\obj\x86\Release\Chess.exe.manifest
+C:\Users\Sambhav\Desktop\Chess - Copy (3)\Chess\obj\x86\Release\Chess.application
+C:\Users\Sambhav\Desktop\Chess\Chess\obj\x86\Release\Chess.csprojResolveAssemblyReference.cache

@@ -1,0 +1,12 @@
+C:\Users\Sambhav\Desktop\Chess\ChessBoardLayout\bin\Debug\ChessBoardLayout.dll
+C:\Users\Sambhav\Desktop\Chess\ChessBoardLayout\bin\Debug\ChessBoardLayout.pdb
+C:\Users\Sambhav\Desktop\Chess\ChessBoardLayout\obj\Debug\ChessBoardLayout.UserControl1.resources
+C:\Users\Sambhav\Desktop\Chess\ChessBoardLayout\obj\Debug\ChessBoardLayout.csproj.GenerateResource.Cache
+C:\Users\Sambhav\Desktop\Chess\ChessBoardLayout\obj\Debug\ChessBoardLayout.dll
+C:\Users\Sambhav\Desktop\Chess\ChessBoardLayout\obj\Debug\ChessBoardLayout.pdb
+C:\Users\Sambhav\Desktop\CHESS\Chess\ChessBoardLayout\bin\Debug\ChessBoardLayout.dll
+C:\Users\Sambhav\Desktop\CHESS\Chess\ChessBoardLayout\bin\Debug\ChessBoardLayout.pdb
+C:\Users\Sambhav\Desktop\CHESS\Chess\ChessBoardLayout\obj\Debug\ChessBoardLayout.UserControl1.resources
+C:\Users\Sambhav\Desktop\CHESS\Chess\ChessBoardLayout\obj\Debug\ChessBoardLayout.csproj.GenerateResource.Cache
+C:\Users\Sambhav\Desktop\CHESS\Chess\ChessBoardLayout\obj\Debug\ChessBoardLayout.dll
+C:\Users\Sambhav\Desktop\CHESS\Chess\ChessBoardLayout\obj\Debug\ChessBoardLayout.pdb
