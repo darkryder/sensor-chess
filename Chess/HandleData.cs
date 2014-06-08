@@ -43,6 +43,7 @@ namespace Chess
 
             if (move_occured)
             {
+                #region castling
                 if (Board.CastlingMode) 
                 {
                     Tuple<int, int> old_coordinate = new Tuple<int, int>(((old_positions[0] % 8) + 1), (old_positions[0] / 8 + 1));
@@ -87,7 +88,10 @@ namespace Chess
                             Board.BoardState = data;
                         }
                     }
+                    Board.n_passantPawn = null;
+                    Board.CastlingMode = false;
                 }
+                #endregion
 
                 #region PawnPromotion
                 // pawn_promotion
