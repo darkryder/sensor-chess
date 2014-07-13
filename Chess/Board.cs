@@ -19,6 +19,7 @@ namespace Chess
 
         public static List<Tuple<int, int>> PossibleLocations = new List<Tuple<int, int>>();
 
+        public static bool InAnalyseData = false;
 
         public void GenerateBoardState()
         {

@@ -235,10 +235,13 @@ namespace Chess
             if (!authentication.checkBoundaryCondition(this.x, this.y, x_new, y_new)) return false;
             if (this.castlingPossible && (this.y == y_new) && (Math.Abs(this.x - x_new) == 2))
             {
-                Board.CastlingMode = true;
+                if (Board.InAnalyseData)
+                {
+                    Board.CastlingMode = true;
+                }
                 return false;
             }
-            if (!(Math.Abs(this.x - x_new) <= 1) && (Math.Abs(this.y - y_new) <= 1)) return false;
+            if (!((Math.Abs(this.x - x_new) <= 1) && (Math.Abs(this.y - y_new) <= 1))) return false;
 
             if (authentication.checkStraightMovement(this, x_new, y_new).Item1 == true) return true;
             if (authentication.checkDiagonalMovement(this, x_new, y_new).Item1 == true) return true;
@@ -262,11 +265,14 @@ namespace Chess
 
             if (this.castlingPossible && (this.y == y_new) && (Math.Abs(this.x - x_new) == 2))
             {
-                Board.CastlingMode = true;
+                if (Board.InAnalyseData)
+                {
+                    Board.CastlingMode = true;
+                }
                 return false;
             }
 
-            if (!(Math.Abs(this.x - x_new) <= 1) && (Math.Abs(this.y - y_new) <= 1)) return false;
+            if (!((Math.Abs(this.x - x_new) <= 1) && (Math.Abs(this.y - y_new) <= 1))) return false;
 
             if (authentication.checkStraightMovement(this, x_new, y_new).Item1 == true) return true;
             if (authentication.checkDiagonalMovement(this, x_new, y_new).Item1 == true) return true;

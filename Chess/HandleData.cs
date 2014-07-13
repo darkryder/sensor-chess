@@ -16,6 +16,7 @@ namespace Chess
 
         public static void AnalyseData(String data)
         {
+            Board.InAnalyseData = true;
             // String.Compare is not useful as I'll have to run the check again if it comes out to be false;
             bool move_occured = false;
             int[] old_positions = {-1, -1};
@@ -186,6 +187,7 @@ namespace Chess
                 }
                 #endregion
             }
+            Board.InAnalyseData = false;
         }
     }
 }
