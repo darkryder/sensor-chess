@@ -249,7 +249,51 @@ namespace Chess
                 Board.KingInCheck = null;
             }
             Console.WriteLine("CHECK : {0}", Board.InCheck);
+        }
 
+        /// <summary>
+        /// The colour given in the argument specifies the king to check for.
+        /// </summary>
+        public static bool KingHasLegalMoves(bool colour)
+        {
+            if ((Board.wking == null) || (Board.bking == null))
+            {
+                Board.wking = (WhiteKing)Board.PosToPiece[new Tuple<int, int>(4, 1)];
+                Board.bking = (BlackKing)Board.PosToPiece[new Tuple<int, int>(4, 8)];
+            }
+            
+            Piece king = colour ? (Piece)Board.wking : (Piece)Board.bking;
+            
+            List<Tuple<int, int>> InvalidPositions = new List<Tuple<int, int>>();
+            foreach (Piece piece in Board.PosToPiece.Values)
+            {
+                if (piece.colour != colour)
+                {
+                    for (int x = 1; x < 9; x++)
+                    {
+                        for (int y = 1; y < 9; y++)
+                        {
+                            if (piece.check(x, y))
+                            {
+                                InvalidPositions.Add(new Tuple<int, int>(x, y));
+                            }
+                        }
+                    }
+                }
+            }
+            for(int x = 1; x < 9; x++)
+            {
+                for(int y = 1; y < 9; y++)
+                {
+                    if (king.check(x, y) && (!InvalidPositions.Contains(new Tuple<int,int>(x, y))))
+                    {
+                        Console.WriteLine("King can escape by running.");
+                        return true;
+                    }
+                }
+            }
+            Console.WriteLine("King can't escape by running");
+            return false;
         }
     }
 }
