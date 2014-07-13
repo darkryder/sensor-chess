@@ -37,6 +37,7 @@ namespace Chess
                 HandleData.AnalyseData(data[i]);
                 i++;
                 userControl11.ChessBoardState = Board.BoardState;
+                
             }
             catch(Exception)
             {
@@ -106,7 +107,6 @@ namespace Chess
             string file = path + @"auto_save.txt";
             string s = Board.BoardState;
             System.Console.WriteLine(s);
-            
         }
 
         private void userControl11_MouseDown(object sender, MouseEventArgs e)

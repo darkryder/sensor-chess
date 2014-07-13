@@ -209,5 +209,47 @@ namespace Chess
             return false;
         }
 
+        /// <summary>
+        /// the argument is the colour to check. false argument implies check whether black has been checked
+        /// </summary>
+        public static void InCheckLogic(bool colour)
+        {
+            List<Tuple<int, int>> positions = new List<Tuple<int, int>>();
+            foreach(Piece piece in Board.PosToPiece.Values)
+            {
+                if (piece.colour != colour)
+                {
+                    for(int x=1; x<9; x++)
+                    {
+                        for(int y = 1; y<9; y++)
+                        {
+                            if (piece.check(x, y))
+                            {
+                                positions.Add(new Tuple<int, int>(x, y));
+                            }
+                        }
+                    }
+                }
+            }
+            if ((Board.wking == null) || (Board.bking == null))
+            {
+                Board.wking = (WhiteKing)Board.PosToPiece[new Tuple<int, int>(4, 1)];
+                Board.bking = (BlackKing)Board.PosToPiece[new Tuple<int, int>(4, 8)];
+
+            }
+            Piece king = (colour == true) ? (Piece)Board.wking : (Piece)Board.bking;
+            if (positions.Contains(new Tuple<int,int>(king.x, king.y)))
+            {
+                Board.InCheck = true;
+                Board.KingInCheck = king;
+            }
+            else
+            {
+                Board.InCheck = false;
+                Board.KingInCheck = null;
+            }
+            Console.WriteLine("CHECK : {0}", Board.InCheck);
+
+        }
     }
 }

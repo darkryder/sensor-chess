@@ -216,6 +216,8 @@ namespace Chess
                 #endregion
             }
             Board.InAnalyseData = false;
+            //don't keep it hardcoded.
+            authentication.InCheckLogic(false);
         }
     }
 }

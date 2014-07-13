@@ -78,6 +78,8 @@ namespace Chess
         BlackKnight bn;
         BlackKing bk;
         BlackQueen bq;
+        public static WhiteKing wking;
+        public static BlackKing bking;
 
         public Board()
         {
@@ -151,5 +153,8 @@ namespace Chess
 
             GenerateBoardState();
         }
+
+        public static bool InCheck = false;
+        public static Piece KingInCheck = null;
     }
 }
