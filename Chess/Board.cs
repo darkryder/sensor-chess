@@ -14,7 +14,6 @@ namespace Chess
         public static String BoardState;
         public static bool ContinueWithNormalMovement = true;
         public static Piece n_passantPawn = null;
-        //public static bool PromotePawnToQueen = false;
         public static bool CastlingMode = false;
 
         public static List<Tuple<int, int>> PossibleLocations = new List<Tuple<int, int>>();

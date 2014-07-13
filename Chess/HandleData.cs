@@ -14,6 +14,49 @@ namespace Chess
             return lines;
         }
 
+        #region PawnPromotion
+        public static void PawnPromotion(String data, int[] old_positions, int[] new_positions)
+        {
+            Tuple<int, int> old_coordinate = new Tuple<int, int>(((new_positions[0] % 8) + 1), (new_positions[0] / 8 + 1));
+            Piece piece;
+            switch (data[new_positions[0]])
+            {
+                case 'q':
+                case 'p':
+                    piece = (BlackQueen)new BlackQueen(old_coordinate.Item1, old_coordinate.Item2, 'q');
+                    break;
+                case 'Q':
+                case 'P':
+                    piece = (WhiteQueen)new WhiteQueen(old_coordinate.Item1, old_coordinate.Item2, 'Q');
+                    break;
+                case 'R':
+                    piece = (WhiteRook)new WhiteRook(old_coordinate.Item1, old_coordinate.Item2, 'R');
+                    break;
+                case 'r':
+                    piece = (BlackRook)new BlackRook(old_coordinate.Item1, old_coordinate.Item2, 'r');
+                    break;
+                case 'N':
+                    piece = (WhiteKnight)new WhiteKnight(old_coordinate.Item1, old_coordinate.Item2, 'N');
+                    break;
+                case 'n':
+                    piece = (BlackKnight)new BlackKnight(old_coordinate.Item1, old_coordinate.Item2, 'n');
+                    break;
+                case 'B':
+                    piece = (WhiteBishop)new WhiteBishop(old_coordinate.Item1, old_coordinate.Item2, 'B');
+                    break;
+                case 'b':
+                    piece = (BlackBishop)new BlackBishop(old_coordinate.Item1, old_coordinate.Item2, 'b');
+                    break;
+                default:
+                    piece = null;
+                    break;
+            }
+            Board.PosToPiece[old_coordinate] = piece;
+            Board.GenerateBoardState();
+            Board.n_passantPawn = null;
+        }
+        #endregion
+
         public static void AnalyseData(String data)
         {
             Board.ContinueWithNormalMovement = true;
@@ -96,50 +139,6 @@ namespace Chess
                 }
                 #endregion
 
-                #region PawnPromotion
-                // pawn_promotion
-                else if (new_positions[0] != -1 && old_positions[0] == -1)
-                {
-                    Tuple<int, int> old_coordinate = new Tuple<int, int>(((new_positions[0] % 8) + 1), (new_positions[0] / 8 + 1));
-                    Piece piece;
-                    switch (data[new_positions[0]])
-                    {
-                        case 'q':
-                            piece = (BlackQueen)new BlackQueen(old_coordinate.Item1, old_coordinate.Item2, 'q');
-                            break;
-                        case 'Q':
-                            piece = (WhiteQueen)new WhiteQueen(old_coordinate.Item1, old_coordinate.Item2, 'Q');
-                            break;
-                        case 'R':
-                            piece = (WhiteRook)new WhiteRook(old_coordinate.Item1, old_coordinate.Item2, 'R');
-                            break;
-                        case 'r':
-                            piece = (BlackRook)new BlackRook(old_coordinate.Item1, old_coordinate.Item2, 'r');
-                            break;
-                        case 'N':
-                            piece = (WhiteKnight)new WhiteKnight(old_coordinate.Item1, old_coordinate.Item2, 'N');
-                            break;
-                        case 'n':
-                            piece = (BlackKnight)new BlackKnight(old_coordinate.Item1, old_coordinate.Item2, 'n');
-                            break;
-                        case 'B':
-                            piece = (WhiteBishop)new WhiteBishop(old_coordinate.Item1, old_coordinate.Item2, 'B');
-                            break;
-                        case 'b':
-                            piece = (BlackBishop)new BlackBishop(old_coordinate.Item1, old_coordinate.Item2, 'b');
-                            break;
-                        default:
-                            piece = null;
-                            break;
-                    }
-                    Board.PosToPiece[old_coordinate] = piece;
-                    Board.BoardState = data;
-                    Board.n_passantPawn = null;
-
-
-                }
-                #endregion
-
                 if (Board.ClickableGame)
                 {
                     Tuple<int, int> old_coordinates = new Tuple<int, int>((old_positions[0] % 8) + 1, (old_positions[0] / 8) + 1);
@@ -164,7 +163,14 @@ namespace Chess
                     Board.n_passantPawn = null;
                     Tuple<int, int> old_coordinate = new Tuple<int, int>(((old_positions[0] % 8) + 1), ((old_positions[0] / 8) + 1));
                     Piece piece = (Piece)Board.PosToPiece[old_coordinate];
-                    if (piece.check((new_positions[0] % 8) + 1, (new_positions[0] / 8) + 1))
+
+                    if (((piece is WhitePawn) && (piece.y == 7)) ||
+                        ((piece is BlackPawn) && (piece.y == 2)))
+                    {
+                        PawnPromotion(data, old_positions, new_positions);
+                    }
+
+                    else if (piece.check((new_positions[0] % 8) + 1, (new_positions[0] / 8) + 1))
                     {
                         Board.BoardState = data;
                         Board.PosToPiece.Remove(old_coordinate);
