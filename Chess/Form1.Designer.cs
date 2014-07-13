@@ -43,6 +43,7 @@
             this.userControl11 = new ChessBoardLayout.UserControl1();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.button1 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,7 +51,7 @@
             // 
             this.button2.Location = new System.Drawing.Point(656, 41);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(129, 23);
+            this.button2.Size = new System.Drawing.Size(126, 23);
             this.button2.TabIndex = 2;
             this.button2.Text = "Execute";
             this.button2.UseVisualStyleBackColor = true;
@@ -70,6 +71,7 @@
             // 
             this.userControl11.ChessBoardState = null;
             this.userControl11.Location = new System.Drawing.Point(10, 10);
+            this.userControl11.LocationsToColour = null;
             this.userControl11.Name = "userControl11";
             this.userControl11.PieceImageMapping = ((System.Collections.Hashtable)(resources.GetObject("userControl11.PieceImageMapping")));
             this.userControl11.Size = new System.Drawing.Size(640, 640);
@@ -99,12 +101,23 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(656, 152);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(126, 23);
+            this.button4.TabIndex = 8;
+            this.button4.Text = "Play ClickableGame";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(794, 654);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.trackBar1);
             this.Controls.Add(this.userControl11);
@@ -126,6 +139,7 @@
         private ChessBoardLayout.UserControl1 userControl11;
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button4;
 
     }
 }

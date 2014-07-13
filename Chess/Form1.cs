@@ -111,6 +111,9 @@ namespace Chess
 
         private void userControl11_MouseDown(object sender, MouseEventArgs e)
         {
+            // checks if ClickableGame is turned on
+            if (!Board.ClickableGame) return;
+
             int step = userControl11.Size.Width / 8;
             int x = e.Location.X / step + 1 ;
             int y = e.Location.Y / step + 1 ;
@@ -163,6 +166,21 @@ namespace Chess
                 }
             }
             userControl11.LocationsToColour = Board.PossibleLocations;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            if (button.Text == "Play ClickableGame")
+            {
+                button.Text = "Stop ClickableGame";
+                Board.ClickableGame = true;
+            }
+            else 
+            {
+                button.Text = "Play ClickableGame";
+                Board.ClickableGame = false;
+            }
         }
 
     }

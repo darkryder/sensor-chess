@@ -16,6 +16,7 @@ namespace Chess
 
         public static void AnalyseData(String data)
         {
+            Board.ContinueWithNormalMovement = true;
             Board.InAnalyseData = true;
             // String.Compare is not useful as I'll have to run the check again if it comes out to be false;
             bool move_occured = false;
@@ -58,8 +59,8 @@ namespace Chess
                         {
                             // handling the rook
                             Board.PosToPiece.Remove(old_coordinate);
-                            piece.x = new_positions[0] % 8 + 1;
-                            piece.y = new_positions[0] / 8 + 1;
+                            piece.x = (extent==2) ? 3 : 5;
+                            piece.y = 1;
                             piece.castlingPossible = false;
                             Board.PosToPiece[new Tuple<int, int> (piece.x, piece.y)] = piece;
                             WhiteKing KingPiece = (WhiteKing)Board.PosToPiece[new Tuple<int, int>(4, 1)];
@@ -78,8 +79,8 @@ namespace Chess
                         {
                             // handling the rook
                             Board.PosToPiece.Remove(old_coordinate);
-                            piece.x = new_positions[0] % 8 + 1;
-                            piece.y = new_positions[0] / 8 + 1;
+                            piece.x = (extent == 2) ? 3 : 5;
+                            piece.y = 8;
                             piece.castlingPossible = false;
                             Board.PosToPiece[new Tuple<int, int>(piece.x, piece.y)] = piece;
                             BlackKing KingPiece = (BlackKing)Board.PosToPiece[new Tuple<int, int>(4, 8)];
@@ -139,9 +140,26 @@ namespace Chess
                 }
                 #endregion
 
+                if (Board.ClickableGame)
+                {
+                    Tuple<int, int> old_coordinates = new Tuple<int, int>((old_positions[0] % 8) + 1, (old_positions[0] / 8) + 1);
+                    Piece piece = (Piece)Board.PosToPiece[old_coordinates];
+                    if (authentication.checkN_PassantKill(piece))
+                    {
+                        Board.PosToPiece.Remove(new Tuple<int, int>(Board.n_passantPawn.x, Board.n_passantPawn.y));
+                        Board.PosToPiece.Remove(old_coordinates);
+                        piece.x = (new_positions[0] % 8) + 1;
+                        piece.y = (new_positions[0] / 8) + 1;
+                        Board.PosToPiece[new Tuple<int, int>(piece.x, piece.y)] = piece;
+                        Board.GenerateBoardState();
+                        Board.ContinueWithNormalMovement = false;
+                        Board.n_passantPawn = null;
+                    }
+                }
+
                 #region NormalMovement
                 // normal movement or killing move
-                else if ((old_positions[1] == -1 && new_positions[1] == -1) == true)
+                if (((old_positions[1] == -1 && new_positions[1] == -1) == true) && Board.ContinueWithNormalMovement)
                 {
                     Board.n_passantPawn = null;
                     Tuple<int, int> old_coordinate = new Tuple<int, int>(((old_positions[0] % 8) + 1), ((old_positions[0] / 8) + 1));
@@ -185,6 +203,9 @@ namespace Chess
                         Board.PosToPiece[new Tuple<int, int>(piece.x, piece.y)] = piece;
                     }
                 }
+
+                
+
                 #endregion
             }
             Board.InAnalyseData = false;

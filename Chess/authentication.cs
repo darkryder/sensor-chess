@@ -186,6 +186,7 @@ namespace Chess
         public static bool checkN_PassantKill(Piece piece)
         {
             if (Board.n_passantPawn == null) return false;
+            //if ((Board.n_passantPawn.x == piece.x) && (Board.n_passantPawn.y == piece.y)) return false;
             if (piece is WhitePawn)
             {
                 if ((piece.y == (Board.n_passantPawn.y)) &&

@@ -34,7 +34,6 @@ namespace Chess
         {
         }
         
-
         public override bool check(int x_new, int y_new)
         {
             if (!authentication.checkBoundaryCondition(this.x, this.y, x_new, y_new)) return false;
@@ -42,9 +41,19 @@ namespace Chess
             if ((y_new - this.y == 2) && (this.y != 2)) return false;
 
             Tuple<bool, bool> temp = authentication.checkStraightMovement(this, x_new, y_new);
+
+            // check for n_passant in gameplay
+            if (Board.n_passantPawn != null)
+            {
+                if (authentication.checkN_PassantKill(this) && (x_new == Board.n_passantPawn.x ) && (y_new == Board.n_passantPawn.y + 1)) return true;
+
+            }
+
             // for n_passant
-            if (temp.Item1 == true && this.y == 2 && y_new == 4) Board.n_passantPawn = (WhitePawn)this;
-            
+            if (Board.InAnalyseData)
+            {
+                if (temp.Item1 == true && this.y == 2 && y_new == 4) Board.n_passantPawn = (WhitePawn)this;
+            }
             if (temp.Item1 == true && temp.Item2 == false) return true;
 
             if ((Math.Abs(this.x - x_new) == 1) && (y_new - this.y == 1))
@@ -52,6 +61,7 @@ namespace Chess
                 temp = authentication.checkDiagonalMovement(this, x_new, y_new);
                 if ((temp.Item2 == true) && (temp.Item1 == true)) return true;
             }
+            
             return false;
         }
         
@@ -72,16 +82,25 @@ namespace Chess
 
             Tuple<bool, bool> temp = authentication.checkStraightMovement(this, x_new, y_new);
 
-            // for n_passant
-            if (temp.Item1 == true && this.y == 7 && y_new == 5) Board.n_passantPawn = (BlackPawn)this;
+            // check for n_passant in gameplay
+            if (Board.n_passantPawn != null)
+            {
+                if (authentication.checkN_PassantKill(this) && (x_new == Board.n_passantPawn.x) && (y_new == Board.n_passantPawn.y - 1)) return true;
 
+            }
+
+            // for n_passant
+            if (Board.InAnalyseData)
+            {
+                if (temp.Item1 == true && this.y == 7 && y_new == 5) Board.n_passantPawn = (BlackPawn)this;
+            }
             if (temp.Item1 == true && temp.Item2 == false) return true;
 
             if ((Math.Abs(this.x - x_new) == 1) && (this.y - y_new == 1))
             {
                 temp = authentication.checkDiagonalMovement(this, x_new, y_new);
                 if ((temp.Item2 == true) && (temp.Item1 == true)) return true;
-            }
+            }            
             return false;
         }
 

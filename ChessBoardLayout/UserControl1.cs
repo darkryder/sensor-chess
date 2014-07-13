@@ -39,17 +39,13 @@ namespace ChessBoardLayout
             set { m_ChessBoardState = value; Invalidate(); }
         }
 
-        public List<Tuple<int, int>> m_LocationsToColour;
+        public List<Tuple<int, int>> m_LocationsToColour = new List<Tuple<int,int>>();
         public List<Tuple<int, int>> LocationsToColour
         {
             get { return m_LocationsToColour; }
             set {
                 m_LocationsToColour = value; 
                 Invalidate();
-                foreach(var i in m_LocationsToColour)
-                {
-                    //Console.WriteLine("position: {0}, {1}", i.Item1, i.Item2);
-                }
             }
         }
 
