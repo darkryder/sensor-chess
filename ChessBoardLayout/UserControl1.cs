@@ -14,13 +14,15 @@ namespace ChessBoardLayout
     {
         public UserControl1()
         {
-            InitializeComponent();
-
             this.SetStyle(
-                ControlStyles.UserPaint |
-                ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.OptimizedDoubleBuffer, true
-                );
+              ControlStyles.UserPaint |
+              ControlStyles.AllPaintingInWmPaint |
+              ControlStyles.OptimizedDoubleBuffer, true
+              );
+
+            InitializeComponent();
+            
+            BkColor = Brushes.Black;
         }
 
         public Hashtable m_PieceImageMapping = new Hashtable();
@@ -37,34 +39,62 @@ namespace ChessBoardLayout
             set { m_ChessBoardState = value; Invalidate(); }
         }
 
+        public List<Tuple<int, int>> m_LocationsToColour;
+        public List<Tuple<int, int>> LocationsToColour
+        {
+            get { return m_LocationsToColour; }
+            set {
+                m_LocationsToColour = value; 
+                Invalidate();
+                foreach(var i in m_LocationsToColour)
+                {
+                    //Console.WriteLine("position: {0}, {1}", i.Item1, i.Item2);
+                }
+            }
+        }
+
+        public Brush BkColor { get; set; }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
 
-            for (int x = 0; x < 8; x++)
+            if (m_ChessBoardState != null)
             {
-                for (int y = 0; y < 8; y++)
+
+                for (int x = 0; x < 8; x++)
                 {
-                    g.FillRectangle(((x + y) % 2 == 0) ? Brushes.White : Brushes.Black, new Rectangle(x * 80, y * 80, 80, 80));
+                    for (int y = 0; y < 8; y++)
+                    {
+                        g.FillRectangle(((x + y) % 2 == 0) ? Brushes.White : BkColor, new Rectangle(x * 80, y * 80, 80, 80));
+                    }
                 }
-            }
 
-            for (int i = 0; i < m_ChessBoardState.Length; i++)
-            {
-                char identifier = ChessBoardState[i];
-
-                if (identifier != 'x')
+                if (m_LocationsToColour != null)
                 {
-                    Bitmap bmp = new Bitmap(Application.StartupPath + "/images/" + PieceImageMapping[identifier]);
-                    g.DrawImage(bmp, new Point((i % 8) * 80, (i / 8) * 80));
-                    base.OnPaint(e);
+                    foreach(var pos in m_LocationsToColour)
+                    {
+                        g.FillRectangle(new SolidBrush(Color.FromArgb(128, 0, 0, 128 )), new Rectangle( (pos.Item1 - 1) * 80, (pos.Item2 - 1) * 80, 80, 80 ));
+                    }
+                }
+
+
+                for (int i = 0; i < m_ChessBoardState.Length; i++)
+                {
+                    char identifier = ChessBoardState[i];
+
+                    if (identifier != 'x')
+                    {
+                        Bitmap bmp = new Bitmap(Application.StartupPath + "/images/" + PieceImageMapping[identifier]);
+                        g.DrawImage(bmp, new Point((i % 8) * 80, (i / 8) * 80));
+                        base.OnPaint(e);
+                    }
                 }
             }
         }
 
         private void UserControl1_Load(object sender, EventArgs e)
         {
-
         }
     }
 }

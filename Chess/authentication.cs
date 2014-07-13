@@ -14,6 +14,7 @@ namespace Chess
             return false;
         }
 
+
         public static bool checkBoundaryCondition(int x_old, int y_old, int x_new, int y_new)
         {
             if ((functions.liesBetween(x_old, 1, 8) &&
@@ -24,7 +25,7 @@ namespace Chess
             return false;
         }
 
-        public static Tuple<bool, bool> checkStraightMovement(Pieces piece, int x_new, int y_new)
+        public static Tuple<bool, bool> checkStraightMovement(Piece piece, int x_new, int y_new)
         {
             // returns 2 data in the variables (move_possible, will kill)
 
@@ -67,7 +68,7 @@ namespace Chess
             {
                 if (checkPosToPiece(i.Item1, i.Item2))
                 {
-                    Pieces j = (Pieces)Board.PosToPiece[i];
+                    Piece j = (Piece)Board.PosToPiece[i];
                     
                     if ((j.colour != piece.colour) &&
                         (j.x == x_new) && (j.y == y_new)) will_kill = true;
@@ -86,7 +87,7 @@ namespace Chess
             return result1;
         }
 
-        public static Tuple<bool, bool> checkDiagonalMovement(Pieces piece, int x_new, int y_new)
+        public static Tuple<bool, bool> checkDiagonalMovement(Piece piece, int x_new, int y_new)
         {
             if (piece.x == x_new || piece.y == y_new) return new Tuple<bool, bool>(false, false);
             
@@ -134,12 +135,13 @@ namespace Chess
 
             bool move_possible = true;
             bool will_kill = false;
-
+            bool early_break = false;
+            Tuple<bool, bool> answer;
             foreach(var i in tempLocations)
             {
                 if (checkPosToPiece(i.Item1, i.Item2))
                 {
-                    var j = (Pieces)Board.PosToPiece[i];
+                    var j = (Piece)Board.PosToPiece[i];
                     
                     if ((j.colour != piece.colour) &&
                         (j.x == x_new) && (j.y == y_new))
@@ -147,32 +149,42 @@ namespace Chess
                         will_kill = true;
                     }
 
-                    else if (j.colour == piece.colour ||
+                    else if ((j.colour == piece.colour) ||
                         (j.colour != piece.colour && (j.x != x_new || j.y != y_new))
                         )
                     {
-                        return new Tuple<bool, bool>(false, false);
+                        early_break = true;
+                        break;
                     }
                 }
             }
-            return new Tuple<bool, bool>(move_possible, will_kill);
+            if (early_break)
+            {
+                answer =  new Tuple<bool, bool>(false, false);
+            }
+            else
+            {
+                answer = new Tuple<bool, bool>(move_possible, will_kill);
+            }
+
+            return answer;
         }
 
-        public static bool checkKnightMovement(Pieces piece, int x_new, int y_new)
+        public static bool checkKnightMovement(Piece piece, int x_new, int y_new)
         {
             bool a = (((Math.Abs(piece.x - x_new) == 2) && (Math.Abs(piece.y - y_new) == 1)) ||
                 ((Math.Abs(piece.x - x_new) == 1) && (Math.Abs(piece.y - y_new) == 2)));
             bool b = true;
             if (checkPosToPiece(x_new, y_new))
             {
-                Pieces j = (Pieces)Board.PosToPiece[new Tuple<int, int>(x_new, y_new)];
+                Piece j = (Piece)Board.PosToPiece[new Tuple<int, int>(x_new, y_new)];
                 if (j.colour == piece.colour)
                     b = false;
             }
             return (a && b);
         }
 
-        public static bool checkN_PassantKill(Pieces piece)
+        public static bool checkN_PassantKill(Piece piece)
         {
             if (Board.n_passantPawn == null) return false;
             if (piece is WhitePawn)

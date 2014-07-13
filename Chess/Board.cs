@@ -13,9 +13,12 @@ namespace Chess
 
         public static String BoardState;
 
-        public static Pieces n_passantPawn = null;
+        public static Piece n_passantPawn = null;
 
         public static bool CastlingMode = false;
+
+        public static List<Tuple<int, int>> PossibleLocations = new List<Tuple<int, int>>();
+
 
         public void GenerateBoardState()
         {
@@ -28,7 +31,7 @@ namespace Chess
                     Tuple<int, int> pos = new Tuple<int, int>(x, y);
                     if (authentication.checkPosToPiece(x, y))
                     {
-                        Pieces p = (Pieces)Board.PosToPiece[new Tuple<int, int>(x, y)];
+                        Piece p = (Piece)Board.PosToPiece[new Tuple<int, int>(x, y)];
                         temp.Append(p.identifier);
                     }
                     else
@@ -41,7 +44,7 @@ namespace Chess
             Board.BoardState = temp.ToString();
         }
 
-        private void addToHashTables(Pieces piece)
+        private void addToHashTables(Piece piece)
         {
             PosToPiece[new Tuple<int, int>(piece.x, piece.y)] = piece;
         }

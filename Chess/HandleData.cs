@@ -41,6 +41,7 @@ namespace Chess
                 }
             }
 
+
             if (move_occured)
             {
                 #region castling
@@ -98,7 +99,7 @@ namespace Chess
                 else if (new_positions[0] != -1 && old_positions[0] == -1)
                 {
                     Tuple<int, int> old_coordinate = new Tuple<int, int>(((new_positions[0] % 8) + 1), (new_positions[0] / 8 + 1));
-                    Pieces piece;
+                    Piece piece;
                     switch (data[new_positions[0]])
                     {
                         case 'q':
@@ -143,7 +144,7 @@ namespace Chess
                 {
                     Board.n_passantPawn = null;
                     Tuple<int, int> old_coordinate = new Tuple<int, int>(((old_positions[0] % 8) + 1), ((old_positions[0] / 8) + 1));
-                    Pieces piece = (Pieces)Board.PosToPiece[old_coordinate];
+                    Piece piece = (Piece)Board.PosToPiece[old_coordinate];
                     if (piece.check((new_positions[0] % 8) + 1, (new_positions[0] / 8) + 1))
                     {
                         Board.BoardState = data;
@@ -172,7 +173,7 @@ namespace Chess
                     {
                         old_coordinates = new Tuple<int, int>((old_positions[0] % 8) + 1, old_positions[0] / 8 + 1);
                     }
-                    Pieces piece = (Pieces)Board.PosToPiece[old_coordinates];
+                    Piece piece = (Piece)Board.PosToPiece[old_coordinates];
                     if (authentication.checkN_PassantKill(piece))
                     {
                         Board.BoardState = data;
