@@ -166,7 +166,6 @@ namespace Chess
             {
                 answer = new Tuple<bool, bool>(move_possible, will_kill);
             }
-
             return answer;
         }
 
