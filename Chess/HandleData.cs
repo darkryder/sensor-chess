@@ -51,6 +51,7 @@ namespace Chess
                     piece = null;
                     break;
             }
+            Board.PosToPiece.Remove(new Tuple<int, int>((old_positions[0] % 8) + 1, (old_positions[0] / 8) + 1));
             Board.PosToPiece[old_coordinate] = piece;
             Board.GenerateBoardState();
             Board.n_passantPawn = null;
