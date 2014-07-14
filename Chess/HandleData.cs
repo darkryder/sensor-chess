@@ -218,11 +218,6 @@ namespace Chess
             Board.InAnalyseData = false;
             //don't keep it hardcoded.
             authentication.MateLogic(false);
-//            authentication.InCheckLogic(false);
-//            if (Board.InCheck)
-            {
- //               if (authentication.KingHasLegalMoves(false));
-            }
         }
     }
 }

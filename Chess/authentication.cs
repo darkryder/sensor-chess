@@ -491,6 +491,7 @@ namespace Chess
                     {
                         if (piece.check(pos.Item1, pos.Item2))
                         {
+                            Piece original_piece = null;
                             // checks that its not check till now
                             // creating a new representation doesn't work as still piece.check uses the PosToPiece
                             // also instead of modifying all the piece functions with optional arguments,
@@ -504,18 +505,35 @@ namespace Chess
                             */
                             Tuple<int, int> actual_coordinates = new Tuple<int, int>(piece.x, piece.y);
                             Board.PosToPiece.Remove(actual_coordinates);
+
+                            // simply doing this would overwrite an already existing piece with a temporary piece,
+                            // thus causing a piece to be lost forever. In short -- killing.
+                            // Board.PosToPiece[new Tuple<int, int>(pos.Item1, pos.Item2)] = piece;
+                            // so
+                            if (authentication.checkPosToPiece(pos.Item1, pos.Item2))
+                            {
+                                if (piece.check(pos.Item1, pos.Item2))
+                                {
+                                    original_piece = (Piece) Board.PosToPiece[pos];
+                                }
+                            }
+
                             Board.PosToPiece[new Tuple<int, int>(pos.Item1, pos.Item2)] = piece;
                             piece.x = pos.Item1;
                             piece.y = pos.Item2;
                             if (authentication.InCheckLogic() == false)
                             {
-                                Board.tempData = "SOMEONE CAN KILL / BLOCK.!!";
+                                Board.tempData = "SOMEONE CAN BLOCK.!!";
                                 //correct the board representation
                                 Board.PosToPiece.Remove(new Tuple<int, int>(piece.x, piece.y));
                                 Board.PosToPiece[new Tuple<int, int>(actual_coordinates.Item1, actual_coordinates.Item2)] = piece;
                                 piece.x = actual_coordinates.Item1;
                                 piece.y = actual_coordinates.Item2;
                                 //Console.WriteLine("SOMEONE CAN KILL");
+                                if (original_piece != null)
+                                {
+                                    Board.PosToPiece[pos] = original_piece;
+                                }
                                 return false;
                             }
                             //correct the board representation
@@ -523,6 +541,11 @@ namespace Chess
                             Board.PosToPiece[new Tuple<int, int>(actual_coordinates.Item1, actual_coordinates.Item2)] = piece;
                             piece.x = actual_coordinates.Item1;
                             piece.y = actual_coordinates.Item2;
+                            if (original_piece != null)
+                            {
+                                Board.PosToPiece[pos] = original_piece;
+                            }
+                            return false;
                         }
                     }
                 }
