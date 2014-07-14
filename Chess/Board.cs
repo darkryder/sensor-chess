@@ -9,15 +9,15 @@ namespace Chess
 {
     public class Board
     {
-        public static  Hashtable PosToPiece = new Hashtable();
+        public static Hashtable PosToPiece = new Hashtable(32);
         public static bool ClickableGame = false;
         public static String BoardState;
         public static bool ContinueWithNormalMovement = true;
         public static Piece n_passantPawn = null;
         public static bool CastlingMode = false;
-
+        public static List<Piece> PiecesCheckingKing = new List<Piece>();
         public static List<Tuple<int, int>> PossibleLocations = new List<Tuple<int, int>>();
-
+        public static String tempData = "";
         public static bool InAnalyseData = false;
 
         public static void GenerateBoardState()

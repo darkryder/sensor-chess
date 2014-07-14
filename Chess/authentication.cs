@@ -210,27 +210,14 @@ namespace Chess
         }
 
         /// <summary>
-        /// the argument is the colour to check. false argument implies check whether black has been checked
+        /// the argument is the colour to check. false argument implies check whether black has been checked.
+        /// This is called during the play after an actual move.
         /// </summary>
         public static void InCheckLogic(bool colour)
         {
-            List<Tuple<int, int>> positions = new List<Tuple<int, int>>();
-            foreach(Piece piece in Board.PosToPiece.Values)
-            {
-                if (piece.colour != colour)
-                {
-                    for(int x=1; x<9; x++)
-                    {
-                        for(int y = 1; y<9; y++)
-                        {
-                            if (piece.check(x, y))
-                            {
-                                positions.Add(new Tuple<int, int>(x, y));
-                            }
-                        }
-                    }
-                }
-            }
+            Board.InCheck = false;
+            Board.KingInCheck = null;
+            Board.PiecesCheckingKing = new List<Piece>();
             if ((Board.wking == null) || (Board.bking == null))
             {
                 Board.wking = (WhiteKing)Board.PosToPiece[new Tuple<int, int>(4, 1)];
@@ -238,18 +225,48 @@ namespace Chess
 
             }
             Piece king = (colour == true) ? (Piece)Board.wking : (Piece)Board.bking;
-            if (positions.Contains(new Tuple<int,int>(king.x, king.y)))
+
+            foreach(Piece piece in Board.PosToPiece.Values)
             {
-                Board.InCheck = true;
-                Board.KingInCheck = king;
-            }
-            else
-            {
-                Board.InCheck = false;
-                Board.KingInCheck = null;
+                if ((piece.colour != colour) && (piece != king))
+                {
+                    if (piece.check(king.x, king.y))
+                    {
+                        Board.PiecesCheckingKing.Add(piece);
+                        Board.InCheck = true;
+                        Board.KingInCheck = king;
+                    }
+                }
             }
             Console.WriteLine("CHECK : {0}", Board.InCheck);
+            foreach (Piece p in Board.PiecesCheckingKing)
+            {
+                Console.Write("{0}: {1}, {2} || ", p.identifier, p.x, p.y);
+            }
+            Console.WriteLine("");
         }
+
+        /// <summary>
+        /// overloaded InCheckLogic function called by the MateLogic
+        /// </summary>
+        /// <returns></returns>
+        public static bool InCheckLogic()
+        {
+            Piece king = (Piece) Board.KingInCheck;
+            bool colour = king.colour;
+            foreach (Piece piece in Board.PosToPiece.Values)
+            {
+                if ((piece.colour != colour) && (piece != king))
+                {
+                    if (piece.check(king.x, king.y))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
 
         /// <summary>
         /// The colour given in the argument specifies the king to check for.
@@ -261,9 +278,9 @@ namespace Chess
                 Board.wking = (WhiteKing)Board.PosToPiece[new Tuple<int, int>(4, 1)];
                 Board.bking = (BlackKing)Board.PosToPiece[new Tuple<int, int>(4, 8)];
             }
-            
+
             Piece king = colour ? (Piece)Board.wking : (Piece)Board.bking;
-            
+
             List<Tuple<int, int>> InvalidPositions = new List<Tuple<int, int>>();
             foreach (Piece piece in Board.PosToPiece.Values)
             {
@@ -281,19 +298,238 @@ namespace Chess
                     }
                 }
             }
-            for(int x = 1; x < 9; x++)
+            for (int x = 1; x < 9; x++)
             {
-                for(int y = 1; y < 9; y++)
+                for (int y = 1; y < 9; y++)
                 {
-                    if (king.check(x, y) && (!InvalidPositions.Contains(new Tuple<int,int>(x, y))))
+                    if (king.check(x, y) && (!InvalidPositions.Contains(new Tuple<int, int>(x, y))))
                     {
-                        Console.WriteLine("King can escape by running.");
+                        Board.tempData = "King can escape by running.";
+                        //Console.WriteLine("King can escape by running.");
                         return true;
                     }
                 }
             }
-            Console.WriteLine("King can't escape by running");
+            Board.tempData = "King can't escape by running";
+            //Console.WriteLine("King can't escape by running");
             return false;
+        }
+
+        public static bool MateLogic(bool colour)
+        {
+            authentication.InCheckLogic(colour);
+            if (!Board.InCheck)
+            {
+                Board.tempData = "not in check";
+                return false;
+            }
+            if (authentication.KingHasLegalMoves(colour))
+            {
+                Board.tempData = "king can move";
+                return false;
+            }
+            // I simply can't use the algorithm of finding the temp locations of the piece
+            // which is checking the king and see if one of my pieces can reach those locations
+            // and hence block, or kill the piece, and then again check for mate, because there might
+            // be more than 1 piece checking.
+            // So I'll create a list of pieces which are checking the king. Then I'll create their temporary locations,
+            // then i'll see if one of my pieces can go to their temporary locations, killing or blocking them, and then again
+            // check for InCheck. That way everything will be awesome. I need an overloaded InCheckLogic into which I can send a 
+            // changed chessboard. Have to think of an efficient way for that.
+            List<Tuple<int, int>> tempLocations = new List<Tuple<int, int>>();
+
+            #region filling tempLocations
+            foreach (Piece p in Board.PiecesCheckingKing)
+            {
+                switch(p.identifier)
+                {
+                    case 'p':
+                    case 'P':
+                        // I can only kill pawns, not block them
+                        tempLocations.Add(new Tuple<int, int>(p.x, p.y));
+                        break;
+                    
+                    case 'R':
+                    case 'r':
+                        // This includes their own position as well as the path the rook takes
+                        for (int i = Math.Min(p.x, Board.KingInCheck.x); i <= Math.Max(p.x, Board.KingInCheck.x); i++ )
+                        {
+                            for (int j= Math.Min(p.y, Board.KingInCheck.y); j <= Math.Max(p.y, Board.KingInCheck.y); j++)
+                            {
+                                tempLocations.Add(new Tuple<int, int>(i, j));
+                            }
+                        }
+                        tempLocations.Remove(new Tuple<int, int>(Board.KingInCheck.x, Board.KingInCheck.y));
+                        break;
+
+                    case 'b':
+                    case 'B':
+                        // fill in the diagonal locations from piece to king
+                        #region filling in temp locations
+                        int[] x_pos = {0,0,0,0,0,0,0,0};
+                        int[] y_pos = {0,0,0,0,0,0,0,0};
+                        int x_pos_i = 0;
+                        if ( p.x < Board.KingInCheck.x)
+                        {
+                            for(int i = p.x; i<=Board.KingInCheck.x; i++)
+                            {
+                                x_pos[x_pos_i] = i;
+                                x_pos_i++;
+                            }
+                        }
+                        else
+                        {
+                            for (int i = p.x; i >= Board.KingInCheck.x; i--)
+                            {
+                                x_pos[x_pos_i] = i;
+                                x_pos_i++;
+                            }
+                        }
+                        int y_pos_i = 0;
+                        if ( p.y < Board.KingInCheck.y)
+                        {
+                            for(int i = p.y; i<=Board.KingInCheck.y; i++)
+                            {
+                                y_pos[y_pos_i] = i;
+                                y_pos_i++;
+                            }
+                        }
+                        else
+                        {
+                            for (int i = p.y; i >= Board.KingInCheck.y; i--)
+                            {
+                                y_pos[y_pos_i] = i;
+                                y_pos_i++;
+                            }
+                        }
+#endregion
+                        for (int i = 0; i < 8; i++ )
+                        {
+                            if (x_pos[i] == 0) break;
+                            tempLocations.Add(new Tuple<int, int>(x_pos[i], y_pos[i]));
+                        }
+                        tempLocations.Remove(new Tuple<int, int>(Board.KingInCheck.x, Board.KingInCheck.y));
+                        break;
+
+                    case 'N':
+                    case 'n':
+                        // I'll have to kill the knights. Can't block them
+                        tempLocations.Add(new Tuple<int, int>(p.x, p.y));
+                        break;
+                    case 'Q':
+                    case 'q':
+                        #region Filling in temporary locations for queen
+                        // check if straight kill or diagnol kill
+                        if ((p.x == Board.KingInCheck.x) || (p.y == Board.KingInCheck.y))
+                        {
+                            for (int i = Math.Min(p.x, Board.KingInCheck.x); i <= Math.Max(p.x, Board.KingInCheck.x); i++)
+                            {
+                                for (int j = Math.Min(p.y, Board.KingInCheck.y); j <= Math.Max(p.y, Board.KingInCheck.y); j++)
+                                {
+                                    tempLocations.Add(new Tuple<int, int>(i, j));
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // diagonal kill
+                            int[] xpos = { 0, 0, 0, 0, 0, 0, 0, 0 };
+                            int[] ypos = { 0, 0, 0, 0, 0, 0, 0, 0 };
+                            int xposi = 0;
+                            if (p.x < Board.KingInCheck.x)
+                            {
+                                for (int i = p.x; i <= Board.KingInCheck.x; i++)
+                                {
+                                    xpos[xposi] = i;
+                                    xposi++;
+                                }
+                            }
+                            else
+                            {
+                                for (int i = p.x; i >= Board.KingInCheck.x; i--)
+                                {
+                                    xpos[xposi] = i;
+                                    xposi++;
+                                }
+                            }
+                            int yposi = 0;
+                            if (p.y < Board.KingInCheck.y)
+                            {
+                                for (int i = p.y; i <= Board.KingInCheck.y; i++)
+                                {
+                                    ypos[yposi] = i;
+                                    yposi++;
+                                }
+                            }
+                            else
+                            {
+                                for (int i = p.y; i >= Board.KingInCheck.y; i--)
+                                {
+                                    ypos[yposi] = i;
+                                    yposi++;
+                                }
+                            }
+                            for (int i = 0; i < 8; i++)
+                            {
+                                if (xpos[i] == 0) break;
+                                tempLocations.Add(new Tuple<int, int>(xpos[i], ypos[i]));
+                            }
+                        }
+#endregion
+                        tempLocations.Remove(new Tuple<int, int>(Board.KingInCheck.x, Board.KingInCheck.y));
+                        break;
+                }
+            }
+            #endregion
+            // so that changing PosToPiece does not raise exception
+            List<Piece> temp_pieces = Board.PosToPiece.Values.Cast<Piece>().ToList();
+            foreach(Piece piece in temp_pieces)
+            {
+                if (piece.colour == colour)
+                {
+                    foreach(Tuple<int, int> pos in tempLocations)
+                    {
+                        if (piece.check(pos.Item1, pos.Item2))
+                        {
+                            // checks that its not check till now
+                            // creating a new representation doesn't work as still piece.check uses the PosToPiece
+                            // also instead of modifying all the piece functions with optional arguments,
+                            // I'll modify the PosToPiece itself and correct it before the function returns
+                            
+                            /*
+                            System.Collections.Hashtable tempBoardRepresentation = (System.Collections.Hashtable)Board.PosToPiece.Clone();
+                            tempBoardRepresentation.Remove(new Tuple<int, int>(piece.x, piece.y));
+                            tempBoardRepresentation[new Tuple<int, int>(pos.Item1, pos.Item2)] = piece;
+                            if (authentication.InCheckLogic(tempBoardRepresentation) == false)
+                            */
+                            Tuple<int, int> actual_coordinates = new Tuple<int, int>(piece.x, piece.y);
+                            Board.PosToPiece.Remove(actual_coordinates);
+                            Board.PosToPiece[new Tuple<int, int>(pos.Item1, pos.Item2)] = piece;
+                            piece.x = pos.Item1;
+                            piece.y = pos.Item2;
+                            if (authentication.InCheckLogic() == false)
+                            {
+                                Board.tempData = "SOMEONE CAN KILL / BLOCK.!!";
+                                //correct the board representation
+                                Board.PosToPiece.Remove(new Tuple<int, int>(piece.x, piece.y));
+                                Board.PosToPiece[new Tuple<int, int>(actual_coordinates.Item1, actual_coordinates.Item2)] = piece;
+                                piece.x = actual_coordinates.Item1;
+                                piece.y = actual_coordinates.Item2;
+                                //Console.WriteLine("SOMEONE CAN KILL");
+                                return false;
+                            }
+                            //correct the board representation
+                            Board.PosToPiece.Remove(new Tuple<int, int>(piece.x, piece.y));
+                            Board.PosToPiece[new Tuple<int, int>(actual_coordinates.Item1, actual_coordinates.Item2)] = piece;
+                            piece.x = actual_coordinates.Item1;
+                            piece.y = actual_coordinates.Item2;
+                        }
+                    }
+                }
+            }
+            Board.tempData = "CHECKMATE..!!";
+            return true;
+
         }
     }
 }

@@ -40,10 +40,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.userControl11 = new ChessBoardLayout.UserControl1();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.button1 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.userControl11 = new ChessBoardLayout.UserControl1();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -66,18 +67,6 @@
             this.button3.Text = "Read";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // userControl11
-            // 
-            this.userControl11.ChessBoardState = null;
-            this.userControl11.Location = new System.Drawing.Point(10, 10);
-            this.userControl11.LocationsToColour = null;
-            this.userControl11.Name = "userControl11";
-            this.userControl11.PieceImageMapping = ((System.Collections.Hashtable)(resources.GetObject("userControl11.PieceImageMapping")));
-            this.userControl11.Size = new System.Drawing.Size(640, 640);
-            this.userControl11.TabIndex = 5;
-            this.userControl11.Load += new System.EventHandler(this.userControl11_Load);
-            this.userControl11.MouseDown += new System.Windows.Forms.MouseEventHandler(this.userControl11_MouseDown);
             // 
             // trackBar1
             // 
@@ -111,12 +100,34 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
+            // userControl11
+            // 
+            this.userControl11.ChessBoardState = null;
+            this.userControl11.Location = new System.Drawing.Point(10, 10);
+            this.userControl11.LocationsToColour = null;
+            this.userControl11.Name = "userControl11";
+            this.userControl11.PieceImageMapping = ((System.Collections.Hashtable)(resources.GetObject("userControl11.PieceImageMapping")));
+            this.userControl11.Size = new System.Drawing.Size(640, 640);
+            this.userControl11.TabIndex = 5;
+            this.userControl11.Load += new System.EventHandler(this.userControl11_Load);
+            this.userControl11.MouseDown += new System.Windows.Forms.MouseEventHandler(this.userControl11_MouseDown);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(656, 213);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(126, 178);
+            this.textBox1.TabIndex = 9;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(794, 654);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.trackBar1);
@@ -140,6 +151,7 @@
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox textBox1;
 
     }
 }

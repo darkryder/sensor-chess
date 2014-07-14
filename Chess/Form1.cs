@@ -166,6 +166,8 @@ namespace Chess
                 }
             }
             userControl11.LocationsToColour = Board.PossibleLocations;
+            textBox1.AppendText("\n");
+            textBox1.AppendText(Board.tempData);
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -181,6 +183,10 @@ namespace Chess
                 button.Text = "Play ClickableGame";
                 Board.ClickableGame = false;
             }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
         }
 
     }
