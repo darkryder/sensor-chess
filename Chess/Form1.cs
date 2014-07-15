@@ -189,5 +189,77 @@ namespace Chess
         {
         }
 
+        private void button5_Click(object sender, EventArgs e)
+        {
+            String data = textBox2.Text;
+            if(data.Length != 64)
+            {
+                textBox2.Text = "Invalid Data";
+                return;
+            }
+            Board.BoardState = data;
+            userControl11.ChessBoardState = data;
+            Board.PosToPiece = new System.Collections.Hashtable();
+            for (int i=0; i < 64; i++)
+            {
+                switch(data[i])
+                {
+                    case 'P':
+                        WhitePawn wp = new WhitePawn((i%8) + 1, (i/8) + 1, 'P');
+                        Board.PosToPiece[new Tuple<int, int>(wp.x, wp.y)] = wp;
+                        break;
+                    case 'p':
+                        BlackPawn bp = new BlackPawn((i%8) + 1, (i/8) + 1, 'p');
+                        Board.PosToPiece[new Tuple<int, int>(bp.x, bp.y)] = bp;
+                        break;
+                    case 'R':
+                        WhiteRook wr = new WhiteRook((i%8) + 1, (i/8) + 1, 'R');
+                        Board.PosToPiece[new Tuple<int, int>(wr.x, wr.y)] = wr;
+                        break;
+                    case 'r':
+                        BlackRook br = new BlackRook((i%8) + 1, (i/8) + 1, 'r');
+                        Board.PosToPiece[new Tuple<int, int>(br.x, br.y)] = br;
+                        break;
+                    case 'B':
+                        WhiteBishop wb = new WhiteBishop ((i%8) + 1, (i/8) + 1, 'B');
+                        Board.PosToPiece[new Tuple<int, int>(wb.x, wb.y)] = wb;
+                        break;
+                    case 'b':
+                        BlackBishop bb = new BlackBishop((i%8) + 1, (i/8) + 1, 'b');
+                        Board.PosToPiece[new Tuple<int, int>(bb.x, bb.y)] = bb;
+                        break;
+                    case 'N':
+                        WhiteKnight wn = new WhiteKnight((i%8) + 1, (i/8) + 1, 'N');
+                        Board.PosToPiece[new Tuple<int, int>(wn.x, wn.y)] = wn;
+                        break;
+                    case 'n':
+                        BlackKnight bn = new BlackKnight ((i%8) + 1, (i/8) + 1, 'n');
+                        Board.PosToPiece[new Tuple<int, int>(bn.x, bn.y)] = bn;
+                        break;
+                    case 'K':
+                        WhiteKing wk = new WhiteKing((i%8) + 1, (i/8) + 1, 'K');
+                        Board.PosToPiece[new Tuple<int, int>(wk.x, wk.y)] = wk;
+                        break;
+                    case 'k':
+                        BlackKing bk = new BlackKing((i%8) + 1, (i/8) + 1, 'k');
+                        Board.PosToPiece[new Tuple<int, int>(bk.x, bk.y)] = bk;
+                        break;
+                    case 'Q':
+                        WhiteQueen wq = new WhiteQueen((i%8) + 1, (i/8) + 1, 'Q');
+                        Board.PosToPiece[new Tuple<int, int>(wq.x, wq.y)] = wq;
+                        break;
+                    case 'q':
+                        BlackQueen bq = new BlackQueen((i%8) + 1, (i/8) + 1, 'q');
+                        Board.PosToPiece[new Tuple<int, int>(bq.x, bq.y)] = bq;
+                        break;
+                }
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            textBox2.Text = Board.BoardState;
+        }
+
     }
 }

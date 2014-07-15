@@ -45,6 +45,9 @@
             this.button4 = new System.Windows.Forms.Button();
             this.userControl11 = new ChessBoardLayout.UserControl1();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -121,12 +124,43 @@
             this.textBox1.TabIndex = 9;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(656, 437);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(126, 20);
+            this.textBox2.TabIndex = 10;
+            this.textBox2.Text = "Enter chessboard state";
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(656, 463);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(126, 23);
+            this.button5.TabIndex = 11;
+            this.button5.Text = "Use Current State";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(656, 408);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(126, 23);
+            this.button6.TabIndex = 12;
+            this.button6.Text = "Generate Board State";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(794, 654);
+            this.Controls.Add(this.button6);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button1);
@@ -152,6 +186,9 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
 
     }
 }
