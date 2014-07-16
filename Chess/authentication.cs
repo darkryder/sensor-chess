@@ -298,7 +298,9 @@ namespace Chess
             }
 
             Piece king = colour ? (Piece)Board.wking : (Piece)Board.bking;
-
+            // I have to remove the king because otherwise whole lines (rows, colums, diagonals) 
+            //would be marked as safe just because according to rules, they can't jump over king, however king would still be in line of attack.
+            Board.PosToPiece.Remove(new Tuple<int, int>(king.x, king.y));
             List<Tuple<int, int>> InvalidPositions = new List<Tuple<int, int>>();
             foreach (Piece piece in Board.PosToPiece.Values)
             {
@@ -324,12 +326,14 @@ namespace Chess
                     {
                         Board.tempData = "King can escape by running.";
                         //Console.WriteLine("King can escape by running.");
+                        Board.PosToPiece[new Tuple<int, int>(king.x, king.y)] = king;
                         return true;
                     }
                 }
             }
             Board.tempData = "King can't escape by running";
             //Console.WriteLine("King can't escape by running");
+            Board.PosToPiece[new Tuple<int, int>(king.x, king.y)] = king;
             return false;
         }
 
@@ -563,7 +567,6 @@ namespace Chess
                             {
                                 Board.PosToPiece[pos] = original_piece;
                             }
-                            return false;
                         }
                     }
                 }

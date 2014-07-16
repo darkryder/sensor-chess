@@ -24,11 +24,9 @@ C:\Users\sambhav\Downloads\sensor-chess-master\sensor-chess-master\ChessBoardLay
 C:\Users\sambhav\Downloads\sensor-chess-master\sensor-chess-master\ChessBoardLayout\obj\Debug\ChessBoardLayout.csproj.GenerateResource.Cache
 C:\Users\sambhav\Downloads\sensor-chess-master\sensor-chess-master\ChessBoardLayout\obj\Debug\ChessBoardLayout.dll
 C:\Users\sambhav\Downloads\sensor-chess-master\sensor-chess-master\ChessBoardLayout\obj\Debug\ChessBoardLayout.pdb
+E:\sensor-chess\ChessBoardLayout\bin\Debug\ChessBoardLayout.dll
+E:\sensor-chess\ChessBoardLayout\bin\Debug\ChessBoardLayout.pdb
 E:\sensor-chess\ChessBoardLayout\obj\Debug\ChessBoardLayout.UserControl1.resources
 E:\sensor-chess\ChessBoardLayout\obj\Debug\ChessBoardLayout.csproj.GenerateResource.Cache
 E:\sensor-chess\ChessBoardLayout\obj\Debug\ChessBoardLayout.dll
-E:\sensor-chess\ChessBoardLayout\bin\Debug\ChessBoardLayout.dll
-E:\sensor-chess\ChessBoardLayout\bin\Debug\ChessBoardLayout.pdb
 E:\sensor-chess\ChessBoardLayout\obj\Debug\ChessBoardLayout.pdb
-E:\sensor-chess\ChessBoardLayout\bin\Debug\ChessBoardLayout.dll.CodeAnalysisLog.xml
-E:\sensor-chess\ChessBoardLayout\bin\Debug\ChessBoardLayout.dll.lastcodeanalysissucceeded
